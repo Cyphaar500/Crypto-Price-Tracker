@@ -1,14 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Table, Input, Typography, Image, Button, Spin } from 'antd';
+import { Table, Input, Image, Button, Spin } from 'antd';
 import { useRouter } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from "../../store";
 import { useGetCryptocurrenciesQuery } from '../../features/cryptoApiSlice';
 import { addToWatchlist, removeFromWatchlist } from "../../features/watchlistSlice";
-
-const { Title } = Typography;
 
 interface CryptoCurrency {
   id: string;
@@ -127,13 +125,7 @@ export default function CryptoTable() {
   ];
 
   return (
-    <div className="md:p-4 lg:p-8 space-y-4">
-      <Title
-        level={2}
-        className="text-lg sm:text-2xl lg:text-3xl mb-4 dark:bg-gray-900 dark:text-gray-100"
-      >
-        Cryptocurrency Price Tracker
-      </Title>
+    <>
       <Input
         placeholder="Search by name or symbol"
         value={search}
@@ -152,6 +144,6 @@ export default function CryptoTable() {
           className="w-full bg-gray-100 dark:bg-gray-900"
         />
       </div>
-    </div>
+    </>
   );
 }

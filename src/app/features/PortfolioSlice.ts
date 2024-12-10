@@ -1,4 +1,3 @@
-// src/app/features/portfolioSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface PortfolioEntry {

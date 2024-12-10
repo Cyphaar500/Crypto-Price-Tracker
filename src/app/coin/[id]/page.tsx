@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { useGetCryptoDetailsQuery, useGetHistoricalPricesQuery } from '@/app/features/cryptoApiSlice';
 import { Typography, Spin } from 'antd';
-import HistoricalChart from '@/app/components/historicalchartperformance/HistoricalChart';
+import HistoricalChart from '@/app/components/historicalchart/HistoricalChart';
 
 const { Title, Text } = Typography;
 

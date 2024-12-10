@@ -1,12 +1,12 @@
 import React from 'react';
-import CryptoTable from './components/tables/CryptoTable';
+import Homepage from './components/homepage/Homepage';
 
 
 export default function Home() {
 
   return (
     <main>
-      <CryptoTable />
+      <Homepage />
     </main>
   );
 }

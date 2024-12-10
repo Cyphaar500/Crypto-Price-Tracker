@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Typography } from 'antd';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+// import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
 import { deletePortfolioEntry } from '../features/PortfolioSlice';
@@ -98,7 +98,6 @@ const PortfolioPage = () => {
   return (
     <div>
       <Title level={2}>My Crypto Portfolio</Title>
-      <PortfolioForm />
       <div className="mb-4">
         <Text strong>Total Portfolio Value: </Text>
         <Text>{totalPortfolioValue.toFixed(2)} USD</Text>
@@ -110,13 +109,15 @@ const PortfolioPage = () => {
         </Text>
       </div>
 
+      <PortfolioForm />
+
       <Table 
         dataSource={portfolio} 
         columns={columns} 
         rowKey="id" 
       />
 
-      <div style={{ width: '100%', height: 400 }}>
+      {/* <div style={{ width: '100%', height: 400 }}>
         <Title level={4}>Historical Performance (7 Days)</Title>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={historicalData}>
@@ -136,7 +137,7 @@ const PortfolioPage = () => {
             ))}
           </LineChart>
         </ResponsiveContainer>
-      </div>
+      </div> */}
     </div>
   );
 };
