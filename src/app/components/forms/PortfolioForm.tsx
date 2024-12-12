@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { Form, Input, Button, Select, Spin, DatePicker, message } from 'antd';
 import { useDispatch } from 'react-redux';
-import { addPortfolioEntry, updatePortfolioEntry } from '../../features/portfolioSlice';
+import { addPortfolioEntry, editPortfolioEntry } from '../../features/portfolioSlice';
 import { useGetCryptocurrenciesQuery } from '../../features/cryptoApiSlice';
 
 const PortfolioForm = ({ editingEntry }: { editingEntry?: any }) => {
@@ -24,7 +24,7 @@ const PortfolioForm = ({ editingEntry }: { editingEntry?: any }) => {
 
   const onFinish = (values: any) => {
     if (editingEntry) {
-      dispatch(updatePortfolioEntry({ id: editingEntry.id, ...values }));
+      dispatch(editPortfolioEntry({ id: editingEntry.id, ...values }));
       message.success('Portfolio updated successfully');
     } else {
       dispatch(addPortfolioEntry(values));
@@ -43,9 +43,9 @@ const PortfolioForm = ({ editingEntry }: { editingEntry?: any }) => {
 
   return (
     <Form form={form} onFinish={onFinish} layout="vertical">
-      <Form.Item 
-        name="coin" 
-        label="Cryptocurrency" 
+      <Form.Item
+        name="coin"
+        label="Cryptocurrency"
         rules={[{ required: true, message: 'Please select a cryptocurrency' }]}
         className=''
       >
@@ -57,16 +57,29 @@ const PortfolioForm = ({ editingEntry }: { editingEntry?: any }) => {
           ))}
         </Select>
       </Form.Item>
-      <Form.Item name="units" label="Units Owned" rules={[{ required: true, message: 'Please enter the number of units' }]}>
+      <Form.Item
+        name="units"
+        label="Units Owned"
+        rules={[{ required: true, message: 'Please enter the number of units' }]}>
         <Input type="number" />
       </Form.Item>
-      <Form.Item name="purchasePrice" label="Purchase Price (USD)" rules={[{ required: true, message: 'Please enter the purchase price' }]}>
+      <Form.Item
+        name="purchasePrice"
+        label="Purchase Price (USD)"
+        rules={[{ required: true, message: 'Please enter the purchase price' }]}>
         <Input type="number" />
       </Form.Item>
-      <Form.Item name="purchaseDate" label="Purchase Date" rules={[{ required: true, message: 'Please select the purchase date' }]}>
+      <Form.Item
+        name="purchaseDate"
+        label="Purchase Date"
+        rules={[{ required: true, message: 'Please select the purchase date' }]}>
         <DatePicker />
       </Form.Item>
-      <Button type="primary" htmlType="submit">
+      <Button
+        type="primary"
+        htmlType="submit"
+        className='mb-4'
+      >
         {editingEntry ? 'Update Entry' : 'Add Entry'}
       </Button>
     </Form>
