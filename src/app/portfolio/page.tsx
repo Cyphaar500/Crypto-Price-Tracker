@@ -8,6 +8,7 @@ import { RootState } from '../store';
 import { deletePortfolioEntry } from '../features/PortfolioSlice';
 import { useGetCryptoPriceQuery, useLazyGetHistoricalDataQuery } from '../features/cryptoApiSlice';
 import PortfolioForm from '../components/forms/PortfolioForm';
+import './portfolio.css';
 
 const { Title, Text } = Typography;
 
@@ -55,7 +56,7 @@ const PortfolioPage = () => {
 
   const columns = [
     {
-      title: '#', 
+      title: '#',
       dataIndex: 'index',
       key: 'index',
       render: (_: any, __: any, index: number) => index + 1,
@@ -98,46 +99,27 @@ const PortfolioPage = () => {
   return (
     <div>
       <Title level={2}>My Crypto Portfolio</Title>
-      <div className="mb-4">
-        <Text strong>Total Portfolio Value: </Text>
-        <Text>{totalPortfolioValue.toFixed(2)} USD</Text>
-      </div>
-      <div className="mb-4">
-        <Text strong>Overall Profit/Loss: </Text>
-        <Text style={{ color: overallProfitLoss >= 0 ? 'green' : 'red' }}>
-          {overallProfitLoss.toFixed(2)} USD
-        </Text>
+      <div className='flex gap-x-4'>
+        <div className="mb-4 bg-blue-400 p-4">
+          <Text strong>Total Portfolio Value: </Text>
+          <Text>{totalPortfolioValue.toFixed(2)} USD</Text>
+        </div>
+        <div className="mb-4 bg-blue-400 p-4">
+          <Text strong>Overall Profit/Loss: </Text>
+          <Text style={{ color: overallProfitLoss >= 0 ? 'green' : 'red' }}>
+            {overallProfitLoss.toFixed(2)} USD
+          </Text>
+        </div>
+
       </div>
 
       <PortfolioForm />
 
-      <Table 
-        dataSource={portfolio} 
-        columns={columns} 
-        rowKey="id" 
+      <Table
+        dataSource={portfolio}
+        columns={columns}
+        rowKey="id"
       />
-
-      {/* <div style={{ width: '100%', height: 400 }}>
-        <Title level={4}>Historical Performance (7 Days)</Title>
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={historicalData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            {portfolio.map((entry) => (
-              <Line
-                key={entry.coin}
-                type="monotone"
-                dataKey={entry.coin}
-                stroke="#8884d8"
-                dot={false}
-              />
-            ))}
-          </LineChart>
-        </ResponsiveContainer>
-      </div> */}
     </div>
   );
 };
