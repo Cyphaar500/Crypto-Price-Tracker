@@ -35,7 +35,7 @@ const portfolioSlice = createSlice({
       state.transactions.push({
         id: action.payload.id,
         coin: action.payload.coin,
-        action: 'Add',
+        action: 'Added',
         date: new Date().toISOString(),
         details: `${action.payload.units} units @ $${action.payload.purchasePrice}`,
       });
@@ -51,7 +51,7 @@ const portfolioSlice = createSlice({
         state.transactions.push({
           id: `txn-${new Date().getTime()}`,
           coin: entry.coin,
-          action: 'Remove',
+          action: 'Removed',
           date: new Date().toISOString(),
           details: `${entry.units} units @ $${entry.purchasePrice}`,
         });
@@ -67,7 +67,7 @@ const portfolioSlice = createSlice({
         state.transactions.push({
           id: action.payload.id,
           coin: action.payload.coin,
-          action: 'Edit',
+          action: 'Edited',
           date: new Date().toISOString(),
           details: `${action.payload.units} units @ $${action.payload.purchasePrice}`,
         });
