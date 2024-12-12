@@ -24,9 +24,9 @@ export const cryptoApi = createApi({
     getCryptoPrice: builder.query({
       query: (id: string) => `simple/price?ids=${id}&vs_currencies=usd`,
     }),
-    getHistoricalData: builder.query({
-      query: (id: string) => `coins/${id}/market_chart?vs_currency=usd&days=7`,
-    }),
+    // getHistoricalData: builder.query({
+    //   query: (id: string) => `coins/${id}/market_chart?vs_currency=usd&days=7`,
+    // }),
     getHistoricalPrices: builder.query({
       query: ({ id, days }) =>
         `coins/${id}/market_chart?vs_currency=usd&days=${days}`,
@@ -38,6 +38,6 @@ export const {
   useGetCryptocurrenciesQuery, 
   useGetCryptoDetailsQuery,
   useGetCryptoPriceQuery, 
-  useLazyGetHistoricalDataQuery,
+  // useLazyGetHistoricalDataQuery,
   useGetHistoricalPricesQuery, 
 } = cryptoApi;
