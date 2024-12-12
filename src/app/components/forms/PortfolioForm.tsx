@@ -2,9 +2,8 @@
 
 import React, { useEffect } from 'react';
 import { Form, Input, Button, Select, Spin, DatePicker, message } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from "../../store";
-import { addPortfolioEntry, updatePortfolioEntry } from '../../features/PortfolioSlice';
+import { useDispatch } from 'react-redux';
+import { addPortfolioEntry, updatePortfolioEntry } from '../../features/portfolioSlice';
 import { useGetCryptocurrenciesQuery } from '../../features/cryptoApiSlice';
 
 const PortfolioForm = ({ editingEntry }: { editingEntry?: any }) => {

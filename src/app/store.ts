@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { cryptoApi } from './features/cryptoApiSlice';
 import watchlistReducer from './features/watchlistSlice';
-import PortfolioReducer from './features/PortfolioSlice';
+import PortfolioReducer from './features/portfolioSlice';
 
 export const store = configureStore({
   reducer: {
