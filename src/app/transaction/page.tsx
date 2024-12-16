@@ -36,7 +36,12 @@ const TransactionHistoryPage = () => {
 
   return (
     <div>
-      <Title level={2}>Transaction History</Title>
+      <Title
+        level={2}
+        className="text-lg sm:text-2xl lg:text-3xl mb-4 dark:bg-gray-900 dark:text-gray-100"
+      >
+        Transaction History
+      </Title>
       <Table
         dataSource={transactions}
         columns={columns}

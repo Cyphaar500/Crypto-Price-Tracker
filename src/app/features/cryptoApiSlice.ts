@@ -10,6 +10,14 @@ export interface CryptoCurrency {
   price_change_percentage_24h: number;
 }
 
+interface ExchangeRatesResponse {
+  rates: {
+    [key: string]: {
+      value: number;
+    };
+  };
+}
+
 export const cryptoApi = createApi({
   reducerPath: 'cryptoApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://api.coingecko.com/api/v3/' }),
@@ -17,6 +25,9 @@ export const cryptoApi = createApi({
     getCryptocurrencies: builder.query<CryptoCurrency[], void>({
       query: () =>
         'coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1',
+    }),
+    fetchExchangeRates: builder.query<ExchangeRatesResponse, void>({
+      query: () => `exchange_rates`, 
     }),
     getCryptoDetails: builder.query<any, string>({
       query: (id) => `coins/${id}`,
@@ -35,5 +46,6 @@ export const {
   useGetCryptocurrenciesQuery, 
   useGetCryptoDetailsQuery,
   useGetCryptoPriceQuery, 
+  useFetchExchangeRatesQuery,
   useGetHistoricalPricesQuery, 
 } = cryptoApi;
