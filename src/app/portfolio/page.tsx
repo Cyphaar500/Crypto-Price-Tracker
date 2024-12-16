@@ -1,19 +1,25 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../store';
 import {
   Table,
   Button,
   Typography,
   InputNumber,
   Form,
+  Select,
   notification,
 } from 'antd';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store';
+import { 
+  useGetCryptoPriceQuery, 
+  useFetchExchangeRatesQuery, 
+  useGetHistoricalPricesQuery,
+} from '../features/cryptoApiSlice';
 import { deletePortfolioEntry } from '../features/portfolioSlice';
-import { useGetCryptoPriceQuery,useGetHistoricalPricesQuery } from '../features/cryptoApiSlice';
 import { addAlert, removeAlert } from '../features/alertSlice';
+import { setCurrency } from '../features/currencySlice';
 import PortfolioForm from '../components/forms/PortfolioForm';
 import HistoricalChart from '../components/historicalchart/HistoricalChart';
 import { v4 as uuidv4 } from 'uuid';
@@ -23,17 +29,21 @@ interface AggregatedData {
   price: number;
 }
 
+const { Option } = Select;
 const { Title } = Typography;
 
 const PortfolioPage = () => {
   const portfolio = useSelector((state: RootState) => state.portfolio.items);
   const alerts = useSelector((state: RootState) => state.alerts.alerts);
+  const { selectedCurrency } = useSelector((state: RootState) => state.currency);
   const [aggregatedData, setAggregatedData] = useState<AggregatedData[]>([]);
   const dispatch = useDispatch();
 
   const { data: coinsPrices } = useGetCryptoPriceQuery(
     portfolio.map((entry) => entry.coin).join(',')
   );
+
+  const { data: exchangeRates, isLoading, error } = useFetchExchangeRatesQuery();
 
   const { data: historicalPrices } = useGetHistoricalPricesQuery(
     portfolio.map((entry) => entry.id).join(',')
@@ -87,20 +97,30 @@ const PortfolioPage = () => {
     dispatch(addAlert(newAlert));
   };
 
+  const handleCurrencyChange = (currency: string) => {
+    dispatch(setCurrency(currency));
+  };
+
   const calculateTotalPortfolioValue = () => {
-    return portfolio.reduce((total, entry) => {
+    const totalUSDValue = portfolio.reduce((total, entry) => {
       const currentPrice = coinsPrices?.[entry.coin]?.usd || 0;
       return total + currentPrice * entry.units;
     }, 0);
+
+    const exchangeRate = exchangeRates?.rates[selectedCurrency]?.value || 1; 
+    return (totalUSDValue * exchangeRate).toFixed(2);
   };
 
   const calculateTotalInvestedAmount = () => {
-    return portfolio.reduce((total, entry) => total + entry.purchasePrice * entry.units, 0);
+    return portfolio.reduce(
+      (total, entry) => total + entry.purchasePrice * entry.units,
+      0
+    );
   };
 
   const totalPortfolioValue = calculateTotalPortfolioValue();
   const totalInvestedAmount = calculateTotalInvestedAmount();
-  const overallProfitLoss = totalPortfolioValue - totalInvestedAmount;
+  const overallProfitLoss = parseFloat(totalPortfolioValue) - totalInvestedAmount;
 
   const columns = [
     {
@@ -173,18 +193,37 @@ const PortfolioPage = () => {
 
       <div className="border-2 border-blue-500 bg-blue-50 rounded-md p-4 mb-6 flex justify-between items-center">
         <div>
-          <p className="text-lg font-semibold text-gray-700">Total Portfolio:</p>
+          <p className="text-lg font-semibold text-gray-700">
+            Select Currency:
+          </p>
+          <Select
+            value={selectedCurrency}
+            onChange={handleCurrencyChange}
+            style={{ width: 80 }}
+          >
+            {Object.keys(exchangeRates?.rates || {}).map((currency) => (
+              <Select.Option key={currency} value={currency}>
+                {currency.toUpperCase()}
+              </Select.Option>
+            ))}
+          </Select>
+        </div>
+        <div>
+          <p className="text-lg font-semibold text-gray-700">
+            Total Portfolio ({selectedCurrency.toUpperCase()}):
+          </p>
           <p className="text-2xl font-bold text-blue-600">
-            {totalPortfolioValue.toFixed(2)} USD
+            {totalPortfolioValue} {selectedCurrency.toUpperCase()}
           </p>
         </div>
         <div>
-          <p className="text-lg font-semibold text-gray-700">Overall Profit/Loss:</p>
+          <p className="text-lg font-semibold text-gray-700">Profit/Loss:</p>
           <p
-            className={`text-2xl font-bold ${overallProfitLoss >= 0 ? 'text-green-600' : 'text-red-600'
-              }`}
+            className={`text-2xl font-bold ${
+              overallProfitLoss >= 0 ? 'text-green-600' : 'text-red-600'
+            }`}
           >
-            {overallProfitLoss.toFixed(2)} USD
+            {overallProfitLoss.toFixed(2)} {selectedCurrency.toUpperCase()}
           </p>
         </div>
       </div>
@@ -195,7 +234,7 @@ const PortfolioPage = () => {
         columns={columns}
         rowKey="id"
         pagination={{ pageSize: 10 }}
-        scroll={{x: true}}
+        scroll={{ x: true }}
         bordered
         className="w-full bg-gray-100 dark:bg-gray-900"
       />

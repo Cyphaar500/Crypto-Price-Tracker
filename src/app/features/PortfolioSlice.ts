@@ -26,6 +26,7 @@ const initialState: PortfolioState = {
   transactions: [],
 };
 
+
 const portfolioSlice = createSlice({
   name: 'portfolio',
   initialState,
@@ -76,6 +77,9 @@ const portfolioSlice = createSlice({
   },
 });
 
-export const { addPortfolioEntry, deletePortfolioEntry, editPortfolioEntry } =
-  portfolioSlice.actions;
+export const { 
+  addPortfolioEntry, 
+  deletePortfolioEntry, 
+  editPortfolioEntry, 
+} = portfolioSlice.actions;
 export default portfolioSlice.reducer;

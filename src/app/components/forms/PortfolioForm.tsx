@@ -45,7 +45,7 @@ const PortfolioForm = ({ editingEntry }: { editingEntry?: any }) => {
     <Form form={form} onFinish={onFinish} layout="vertical">
       <Form.Item
         name="coin"
-        label="Cryptocurrency"
+        label={<span className="text-gray-700 dark:text-gray-400">Cryptocurrency</span>}
         rules={[{ required: true, message: 'Please select a cryptocurrency' }]}
         className=''
       >
@@ -59,19 +59,19 @@ const PortfolioForm = ({ editingEntry }: { editingEntry?: any }) => {
       </Form.Item>
       <Form.Item
         name="units"
-        label="Units Owned"
+        label={<span className="text-gray-700 dark:text-gray-400">Units Owned</span>}
         rules={[{ required: true, message: 'Please enter the number of units' }]}>
         <Input type="number" />
       </Form.Item>
       <Form.Item
         name="purchasePrice"
-        label="Purchase Price (USD)"
+        label={<span className="text-gray-700 dark:text-gray-400">Purchase Price (USD)</span>}
         rules={[{ required: true, message: 'Please enter the purchase price' }]}>
         <Input type="number" />
       </Form.Item>
       <Form.Item
         name="purchaseDate"
-        label="Purchase Date"
+        label={<span className="text-gray-700 dark:text-gray-400">Purchase Date</span>}
         rules={[{ required: true, message: 'Please select the purchase date' }]}>
         <DatePicker />
       </Form.Item>
