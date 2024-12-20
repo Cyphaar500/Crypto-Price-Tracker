@@ -64,7 +64,7 @@ const portfolioSlice = createSlice({
     ) => {
       const index = state.items.findIndex((entry) => entry.id === action.payload.id);
       if (index !== -1) {
-        state.items[index] = action.payload;
+        state.items[index] = { ...state.items[index], ...action.payload };
         state.transactions.push({
           id: action.payload.id,
           coin: action.payload.coin,
